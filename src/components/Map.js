@@ -12,6 +12,7 @@ const Map = () => {
     zoom: 1,
   });
 
+  const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [fetched, setFetched] = useState({
@@ -21,9 +22,11 @@ const Map = () => {
   });
 
   const fetchCases = async (level = "countries") => {
+    setLoading(true);
     const res = await fetch(`https://www.trackcorona.live/api/${level}`);
     const data = await res.json();
     console.log(data.data);
+    setLoading(false);
     if (!data.code === 200) setApiError(true);
     setMarkers(data.data);
   };
@@ -31,7 +34,6 @@ const Map = () => {
   // fetch from api on app load
   useEffect(() => {
     fetchCases();
-    setFetched({ countries: true });
   }, []);
 
   // fetch different end point on zoom change
@@ -47,7 +49,7 @@ const Map = () => {
     //   fetchCases("cities");
     //   setFetched({ cities: true });
     // }
-  }, [viewport.zoom]);
+  }, [viewport.zoom, fetched.countries, fetched.provinces]);
 
   const btnSize = () => {
     if (viewport.zoom < 3) {
@@ -69,6 +71,7 @@ const Map = () => {
       mapStyle="mapbox://styles/proteinbro/ckbuivjuv0ixl1ip4uknqcbof"
     >
       <span className="zoom">Zoom: {viewport.zoom}</span>
+      {loading ? <span className="loading">FETCHING</span> : null}
       {!apiError
         ? markers.map((country) => (
             <Marker
