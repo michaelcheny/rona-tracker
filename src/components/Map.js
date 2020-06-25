@@ -5,8 +5,8 @@ import corona from "../assets/coronaLogo.svg";
 const Map = () => {
   // sets initial location on map
   const [viewport, setViewport] = useState({
-    width: "90vw",
-    height: "80vh",
+    width: "100vw",
+    height: "75vh",
     // latitude: 37.7577,
     // longitude: -122.4376,
     zoom: 1,
@@ -27,6 +27,16 @@ const Map = () => {
     fetchCountries();
   }, []);
 
+  const btnSize = () => {
+    if (viewport.zoom < 3) {
+      return "small-marker";
+    } else if (viewport.zoom >= 3 && viewport.zoom <= 7) {
+      return "med-marker";
+    } else if (viewport.zoom > 7) {
+      return "big-marker";
+    }
+  };
+
   return (
     <ReactMapGl
       {...viewport}
@@ -41,7 +51,7 @@ const Map = () => {
               latitude={country.latitude}
               longitude={country.longitude}
             >
-              <button className="marker">
+              <button className={btnSize()}>
                 <img src={corona} alt="corona logo" />
               </button>
             </Marker>

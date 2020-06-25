@@ -1,4 +1,19 @@
 body {
-  margin-top: 0;
-  margin-left: 0;
+  // margin-top: 0;
+  // margin-left: 0;
+  background-color: #30475e;
+  color: cornsilk;
+  display: flex;
+  justify-content: center;
+
+  .main {
+    // border: 3px pink solid;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      align-self: center;
+      // border: 2px red solid;
+    }
+  }
 }
