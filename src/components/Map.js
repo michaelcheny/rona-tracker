@@ -35,14 +35,14 @@ const Map = () => {
       mapStyle="mapbox://styles/proteinbro/ckbr18uqs3im51ioj2qzlgx7u"
     >
       {countries.map((country) => {
-        console.log(country);
+        // console.log(country);
         return (
           <Marker
             key={country.location + country.country_code}
             latitude={country.latitude}
             longitude={country.longitude}
           >
-            <button>
+            <button className="marker">
               <img src={corona} alt="corona logo" />
             </button>
           </Marker>

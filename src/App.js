@@ -1,12 +1,11 @@
 import React from "react";
-// import logo from './logo.svg';
-// import './App.css';
+import "./App.scss";
 import Map from "./components/Map";
 
 const App = () => {
   return (
     <div>
-      <h1>qewioruqiowerujdafsajsdkfxv</h1>
+      <h1>The Corona Tracker 1.0</h1>
       <Map />
     </div>
   );
