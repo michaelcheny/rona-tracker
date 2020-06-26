@@ -32,9 +32,18 @@ const Map = () => {
     setMarkers(data.data);
   };
 
-  // fetch from api on app load
   useEffect(() => {
+    // fetch from api on app load
     fetchCases();
+
+    // escape key closes popup
+    const listener = (event) => {
+      if (event.key === "Escape") setSelectedMarker(null);
+    };
+    window.addEventListener("keydown", listener);
+    return () => {
+      window.removeEventListener("keydown", listener);
+    };
   }, []);
 
   // fetch different end point on zoom change
