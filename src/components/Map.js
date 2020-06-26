@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGl, { Marker } from "react-map-gl";
+import ReactMapGl, { Marker, Popup } from "react-map-gl";
 import corona from "../assets/coronaLogo.svg";
 
 const Map = () => {
@@ -20,6 +20,7 @@ const Map = () => {
     provinces: false,
     cities: false,
   });
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const fetchCases = async (level = "countries") => {
     setLoading(true);
@@ -51,7 +52,7 @@ const Map = () => {
     // }
   }, [viewport.zoom, fetched.countries, fetched.provinces]);
 
-  const btnSize = () => {
+  const markerSize = () => {
     if (viewport.zoom < 3) {
       return "small-marker";
     } else if (viewport.zoom >= 3 && viewport.zoom <= 7) {
@@ -66,25 +67,39 @@ const Map = () => {
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
-      // mapStyle="mapbox://styles/proteinbro/ckbr18uqs3im51ioj2qzlgx7u"
-      // mapStyle="mapbox://styles/proteinbro/ckbuim9uo0iqh1ipdx8q6v199"
-      mapStyle="mapbox://styles/proteinbro/ckbuivjuv0ixl1ip4uknqcbof"
+      mapStyle={process.env.REACT_APP_MAPBOX_MAPSTYLE}
     >
-      <span className="zoom">Zoom: {viewport.zoom}</span>
+      <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
       {loading ? <span className="loading">FETCHING</span> : null}
       {!apiError
-        ? markers.map((country) => (
+        ? markers.map((marker) => (
             <Marker
-              key={country.location + country.country_code}
-              latitude={country.latitude}
-              longitude={country.longitude}
+              key={marker.location + marker.country_code}
+              latitude={marker.latitude}
+              longitude={marker.longitude}
             >
-              <button className={btnSize()}>
+              <button
+                className={markerSize()}
+                onClick={(event) => {
+                  event.preventDefault();
+                  console.log(marker);
+                  setSelectedMarker(marker);
+                }}
+              >
                 <img src={corona} alt="corona logo" />
               </button>
             </Marker>
           ))
         : null}
+      {selectedMarker ? (
+        <Popup
+          latitude={selectedMarker.latitude}
+          longitude={selectedMarker.longitude}
+          onClose={() => setSelectedMarker(null)}
+        >
+          <div>askdjfhjkasdfjsdf</div>
+        </Popup>
+      ) : null}
     </ReactMapGl>
   );
 };
