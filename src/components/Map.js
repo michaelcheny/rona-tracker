@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGl, { Marker, Popup } from "react-map-gl";
+import ReactMapGl, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 import corona from "../assets/coronaLogo.svg";
 import mapMarker from "../assets/mapMarker.svg";
 import loadingSvg from "../assets/loading.svg";
@@ -11,32 +11,51 @@ const Map = () => {
     height: "75vh",
     // latitude: 37.7577,
     // longitude: -122.4376,
-    zoom: 1,
+    zoom: 1.25,
+    maxZoom: 8,
+    speed: 0.7,
   });
 
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [fetched, setFetched] = useState({
-    countries: false,
-    provinces: false,
-    cities: false,
-  });
+
   const [selectedMarker, setSelectedMarker] = useState(null);
 
-  const fetchCases = async (level = "countries") => {
-    setLoading(true);
-    const res = await fetch(`https://www.trackcorona.live/api/${level}`);
-    const data = await res.json();
-    console.log(data.data);
-    setLoading(false);
-    if (!data.code === 200) setApiError(true);
-    setMarkers(data.data);
+  const [countries, setCountries] = useState([]);
+  const [provinces, setProvinces] = useState([]);
+
+  const fetchCountries = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("https://www.trackcorona.live/api/countries");
+      const data = await res.json();
+      setLoading(false);
+      if (!data.code === 200) setApiError(true);
+      setCountries(data.data);
+      setMarkers(data.data);
+      console.log(countries);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchProvinces = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("https://www.trackcorona.live/api/provinces");
+      const data = await res.json();
+      setLoading(false);
+      if (!data.code === 200) setApiError(true);
+      setProvinces(data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     // fetch from api on app load
-    fetchCases();
+    fetchCountries();
+    fetchProvinces();
 
     // escape key closes popup
     const listener = (event) => {
@@ -50,18 +69,16 @@ const Map = () => {
 
   // fetch different end point on zoom change
   useEffect(() => {
-    if (viewport.zoom >= 3 && viewport.zoom <= 7 && !fetched.provinces) {
-      fetchCases("provinces");
-      setFetched({ provinces: true, countries: false });
-    } else if (viewport.zoom < 3 && !fetched.countries) {
-      fetchCases();
-      setFetched({ countries: true, provinces: false });
+    if (viewport.zoom >= 3 && viewport.zoom <= 7) {
+      setMarkers(provinces);
+    } else if (viewport.zoom < 3) {
+      setMarkers(countries);
     }
     // else if (viewport.zoom > 8 && !fetched.cities) {
     //   fetchCases("cities");
     //   setFetched({ cities: true });
     // }
-  }, [viewport.zoom, fetched.countries, fetched.provinces]);
+  }, [viewport.zoom, countries, provinces]);
 
   const markerSize = () => {
     if (viewport.zoom < 3) {
@@ -79,10 +96,11 @@ const Map = () => {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
       mapStyle={process.env.REACT_APP_MAPBOX_MAPSTYLE}
+      speed={viewport.speed}
     >
-      <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
+      ] <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
       {loading ? <img className="loading" src={loadingSvg} alt="loading" /> : null}
-      {!apiError
+      {!apiError && markers
         ? markers.map((marker) => (
             <Marker
               key={marker.location + marker.country_code}
@@ -95,6 +113,14 @@ const Map = () => {
                   event.preventDefault();
                   console.log(marker);
                   setSelectedMarker(marker);
+                  setViewport({
+                    ...viewport,
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                    zoom: 2.99,
+                    transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
+                    transitionDuration: "auto",
+                  });
                 }}
               >
                 {/* <img src={corona} alt="corona logo" /> */}
