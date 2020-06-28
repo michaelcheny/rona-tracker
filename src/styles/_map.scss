@@ -2,9 +2,34 @@
   color: rgb(125, 231, 125);
   background-color: rgba(0, 0, 0, 0.5);
   padding: 5px;
-  // border-radius: 5px;
   font-size: smaller;
   font-weight: 600;
   z-index: 10;
   position: absolute;
+}
+
+.popup {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+  letter-spacing: 0px;
+  line-height: 0;
+  h3 {
+    font-size: normal;
+  }
+  .numbers {
+    font-weight: 700;
+  }
+}
+
+.loading {
+  position: absolute;
+  margin: 0 auto;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }

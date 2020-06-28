@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactMapGl, { Marker, Popup } from "react-map-gl";
 import corona from "../assets/coronaLogo.svg";
+import mapMarker from "../assets/mapMarker.svg";
+import loadingSvg from "../assets/loading.svg";
 
 const Map = () => {
   // initial map configs
@@ -79,7 +81,7 @@ const Map = () => {
       mapStyle={process.env.REACT_APP_MAPBOX_MAPSTYLE}
     >
       <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
-      {loading ? <span className="loading">FETCHING</span> : null}
+      {loading ? <img className="loading" src={loadingSvg} alt="loading" /> : null}
       {!apiError
         ? markers.map((marker) => (
             <Marker
@@ -95,7 +97,8 @@ const Map = () => {
                   setSelectedMarker(marker);
                 }}
               >
-                <img src={corona} alt="corona logo" />
+                {/* <img src={corona} alt="corona logo" /> */}
+                <img src={mapMarker} alt={`map marker for ${marker.location}`} />
               </button>
             </Marker>
           ))
@@ -106,7 +109,20 @@ const Map = () => {
           longitude={selectedMarker.longitude}
           onClose={() => setSelectedMarker(null)}
         >
-          <div>askdjfhjkasdfjsdf</div>
+          <div className="popup">
+            <h3>{selectedMarker.location}</h3>
+            <p>
+              Confirmed: <span className="numbers">{selectedMarker.confirmed}</span>
+            </p>
+            {selectedMarker.recovered ? (
+              <p>
+                Recovered: <span className="numbers">{selectedMarker.recovered}</span>
+              </p>
+            ) : null}
+            <p>
+              Dead: <span className="numbers">{selectedMarker.dead}</span>
+            </p>
+          </div>
         </Popup>
       ) : null}
     </ReactMapGl>
