@@ -13,7 +13,7 @@ const Map = () => {
     // longitude: -122.4376,
     zoom: 1.25,
     maxZoom: 8,
-    speed: 0.7,
+    // speed: 0.7,
   });
 
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ const Map = () => {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
       mapStyle={process.env.REACT_APP_MAPBOX_MAPSTYLE}
-      speed={viewport.speed}
+      // speed={viewport.speed}
     >
       ] <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
       {loading ? <img className="loading" src={loadingSvg} alt="loading" /> : null}
@@ -117,7 +117,7 @@ const Map = () => {
                     ...viewport,
                     latitude: marker.latitude,
                     longitude: marker.longitude,
-                    zoom: 2.99,
+                    zoom: viewport.zoom < 3 ? 2.8 : 5,
                     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
                     transitionDuration: "auto",
                   });
