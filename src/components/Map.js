@@ -26,7 +26,7 @@ const Map = () => {
       const data = await res.json();
       setLoading(false);
       setCountries(data.data);
-      setMarkers(data.data);
+      setMarkers(countries);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +58,7 @@ const Map = () => {
     };
   }, []);
 
-  // fetch different end point on zoom change
+  // different sets of markers on zoom change
   useEffect(() => {
     if (viewport.zoom < 3) {
       setMarkers(countries);
@@ -83,7 +83,7 @@ const Map = () => {
       onViewportChange={(viewport) => setViewport(viewport)}
       mapStyle={process.env.REACT_APP_MAPBOX_MAPSTYLE}
     >
-      ] <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
+      <span className="zoom">Zoom: {viewport.zoom.toFixed(2)}</span>
       {loading ? <img className="loading" src={loadingSvg} alt="loading" /> : null}
       {markers.map((marker) => (
         <Marker
@@ -105,8 +105,8 @@ const Map = () => {
               });
             }}
           >
-            <img src={corona} alt="corona beer" />
             {/* <img src={mapMarker} alt={`map marker for ${marker.location}`} /> */}
+            <img src={corona} alt="corona beer" />
           </button>
         </Marker>
       ))}

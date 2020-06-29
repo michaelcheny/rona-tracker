@@ -9,7 +9,6 @@ const App = () => {
       {/* <Navbar /> */}
       <h1>The Corona Tracker</h1>
       <Map />
-      <p style={{ fontSize: "8px" }}>Icons by svgrepo.com</p>
     </div>
   );
 };
