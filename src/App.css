@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #30475e;
+  color: cornsilk;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body .main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body .main h1 {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.small-marker {
+  height: 40px;
+  width: 25px;
+  z-index: 1;
+  background: none;
+  border: none;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.small-marker:hover {
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.small-marker img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.med-marker {
+  height: 50px;
+  width: 30px;
+  z-index: 1;
+  background: none;
+  border: none;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.med-marker:hover {
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.med-marker img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.zoom {
+  color: #7de77d;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  font-size: smaller;
+  font-weight: 600;
+  z-index: 10;
+  position: absolute;
+}
+
+.popup {
+  color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: small;
+  letter-spacing: 0px;
+  line-height: 0;
+  background: white;
+  color: #3f618c;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.popup h3 {
+  font-size: normal;
+}
+
+.popup .numbers {
+  font-weight: 700;
+}
+
+.loading {
+  position: absolute;
+  margin: 0 auto;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  margin-right: -50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.navbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #393e44;
+  -webkit-box-shadow: 0px 1px 4px 1px #393e46;
+          box-shadow: 0px 1px 4px 1px #393e46;
+}
+
+.navbar .logo {
+  background-color: burlywood;
+  height: 3rem;
+  width: 3rem;
+  margin: auto 0;
+}
+
+.navbar ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+  margin-right: 3rem;
+}
+
+.navbar ul li {
+  padding: 0 1.5rem;
+}
+/*# sourceMappingURL=App.css.map */

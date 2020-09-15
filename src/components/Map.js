@@ -9,7 +9,7 @@ const Map = () => {
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
-    zoom: 4,
+    zoom: 4.2,
     maxZoom: 8,
     latitude: 37.7577,
     longitude: -95.712891,
@@ -17,22 +17,22 @@ const Map = () => {
 
   const [loading, setLoading] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [countries, setCountries] = useState([]);
+  // const [countries, setCountries] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
 
-  const fetchCountries = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('https://www.trackcorona.live/api/countries');
-      const data = await res.json();
-      setLoading(false);
-      setCountries(data.data);
-      setMarkers(countries);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchMurica = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await fetch('https://www.trackcorona.live/api/countries/us');
+  //     const data = await res.json();
+  //     setLoading(false);
+  //     setCountries(data.data);
+  //     setMarkers(countries);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const fetchProvinces = async () => {
     try {
@@ -48,7 +48,7 @@ const Map = () => {
 
   useEffect(() => {
     // fetch from api on app load
-    fetchCountries();
+    // fetchMurica();
     fetchProvinces();
     // escape key closes popup
     const listener = (event) => {
@@ -63,11 +63,15 @@ const Map = () => {
   // different sets of markers on zoom change
   useEffect(() => {
     if (viewport.zoom < 3) {
-      setMarkers(countries);
+      // setMarkers(countries);
     } else {
       setMarkers(provinces);
     }
-  }, [viewport.zoom, countries, provinces]);
+  }, [
+    viewport.zoom,
+    //  countries,
+    provinces,
+  ]);
 
   // change marker size depending on zoom level
   const markerSize = () => {
