@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import ReactMapGl, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
-import corona from "../assets/coronaBeer.png";
-import mapMarker from "../assets/mapMarker.svg";
-import loadingSvg from "../assets/loading.svg";
+import React, { useState, useEffect } from 'react';
+import ReactMapGl, { Marker, Popup, FlyToInterpolator } from 'react-map-gl';
+import corona from '../assets/coronaBeer.png';
+import mapMarker from '../assets/mapMarker.svg';
+import loadingSvg from '../assets/loading.svg';
 
 const Map = () => {
   // initial map configs
   const [viewport, setViewport] = useState({
-    width: "100vw",
-    height: "80vh",
-    zoom: 1.25,
+    width: '100vw',
+    height: '100vh',
+    zoom: 4,
     maxZoom: 8,
+    latitude: 37.7577,
+    longitude: -95.712891,
   });
 
   const [loading, setLoading] = useState(false);
@@ -22,7 +24,7 @@ const Map = () => {
   const fetchCountries = async () => {
     try {
       setLoading(true);
-      const res = await fetch("https://www.trackcorona.live/api/countries");
+      const res = await fetch('https://www.trackcorona.live/api/countries');
       const data = await res.json();
       setLoading(false);
       setCountries(data.data);
@@ -35,7 +37,7 @@ const Map = () => {
   const fetchProvinces = async () => {
     try {
       setLoading(true);
-      const res = await fetch("https://www.trackcorona.live/api/provinces");
+      const res = await fetch('https://www.trackcorona.live/api/provinces');
       const data = await res.json();
       setLoading(false);
       setProvinces(data.data);
@@ -50,11 +52,11 @@ const Map = () => {
     fetchProvinces();
     // escape key closes popup
     const listener = (event) => {
-      if (event.key === "Escape") setSelectedMarker(null);
+      if (event.key === 'Escape') setSelectedMarker(null);
     };
-    window.addEventListener("keydown", listener);
+    window.addEventListener('keydown', listener);
     return () => {
-      window.removeEventListener("keydown", listener);
+      window.removeEventListener('keydown', listener);
     };
   }, []);
 
@@ -70,9 +72,9 @@ const Map = () => {
   // change marker size depending on zoom level
   const markerSize = () => {
     if (viewport.zoom < 3) {
-      return "small-marker";
+      return 'small-marker';
     } else {
-      return "med-marker";
+      return 'med-marker';
     }
   };
 
@@ -101,7 +103,7 @@ const Map = () => {
                 longitude: marker.longitude,
                 zoom: viewport.zoom < 3 ? 2.8 : 5,
                 transitionInterpolator: new FlyToInterpolator({ speed: 1.6 }),
-                transitionDuration: "auto",
+                transitionDuration: 'auto',
               });
             }}
           >
